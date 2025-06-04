@@ -1,43 +1,39 @@
-import { GetServerSideProps } from "next";
-import Header from "@/components/layout/Header";
-import { PostProps } from "@/interfaces";  // Import PostProps interface
+// pages/posts/index.tsx
+import React, { useState } from 'react';
+import PostModal from '../../components/common/PostModal';
+import { PostData } from '../../interfaces';
 
-// Define the Posts component
-const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
+const Posts = () => {
+  const [post, setPost] = useState<PostData | null>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = (postData: PostData | null) => {
+    setPost(postData);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleSubmit = (postData: PostData) => {
+    // Your submit logic here (create or update post)
+    console.log('Submitted post:', postData);
+    closeModal();
+  };
+
   return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      <main className="p-4">
-        <h1 className="text-2xl font-semibold">Posts Page</h1>
-        
-        {/* Render a list of posts */}
-        <div className="mt-4 space-y-6">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition duration-200"
-            >
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p className="mt-2 text-gray-700">{post.body}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+    <div>
+      <h1>Posts</h1>
+      <button onClick={() => openModal(null)}>Create New Post</button>
+
+      {/* You can list posts here if you have them */}
+
+      {isModalOpen && (
+        <PostModal post={post} onClose={closeModal} onSubmit={handleSubmit} />
+      )}
     </div>
   );
-};
-
-// Fetch posts from an external API
-export const getServerSideProps: GetServerSideProps = async () => {
-  // Mock API endpoint for posts data
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: PostProps[] = await res.json();
-
-  return {
-    props: {
-      posts, // Pass fetched posts as props
-    },
-  };
 };
 
 export default Posts;
