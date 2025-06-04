@@ -14,12 +14,11 @@ const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setModalOpen(false); // ✅ Fixed: was wrongly typed as setIsModalOpen
     setPost(null);
   };
 
   const submitPost = (postData: PostData) => {
-    // Your submit logic here
     console.log('Submitted post:', postData);
     closeModal();
   };
@@ -40,7 +39,8 @@ const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
             <PostCard key={postItem.id} post={postItem} />
           ))}
         </div>
-        {isModalOpen && (
+
+        {isModalOpen && post !== null && (
           <PostModal post={post} onClose={closeModal} onSubmit={submitPost} />
         )}
       </main>
