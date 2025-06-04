@@ -1,6 +1,23 @@
 // interfaces/index.ts
 
-// Interface for individual posts (from your earlier PostProps)
+export interface PostData {
+  id?: number;
+  title: string;
+  content: string;
+}
+
+export interface PostModalProps {
+  post: PostData | null;
+  onClose: () => void;
+  onSubmit: (post: PostData) => void;
+}
+
+export interface UserModalProps {
+  user: UserProps | null;
+  onClose: () => void;
+  onSubmit: (user: UserProps) => void;
+}
+
 export interface PostProps {
   userId: number;
   id: number;
@@ -8,7 +25,6 @@ export interface PostProps {
   body: string;
 }
 
-// Interface for individual users (from your earlier UserProps)
 export interface UserProps {
   id: number;
   name: string;
@@ -31,18 +47,4 @@ export interface UserProps {
       lng: string;
     };
   };
-}
-
-// New interface for modal post data, with optional id
-export interface PostData {
-  id?: number;
-  title: string;
-  content: string;
-}
-
-// Props for the PostModal component
-export interface PostModalProps {
-  post: PostData | null;
-  onClose: () => void;
-  onSubmit: (post: PostData) => void;
 }
